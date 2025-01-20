@@ -180,12 +180,12 @@ class Go2WebRTCConnection:
         if peer_answer_json is not None:
             peer_answer = json.loads(peer_answer_json)
         else:
-            print("Could not get SDP from the peer. Check if the Go2 is switched on")
-            sys.exit(1)
+            raise ValueError("Could not get SDP from the peer. Check if the Go2 is switched on")
+            # sys.exit(1)
 
         if peer_answer['sdp'] == "reject":
-            print("Go2 is connected by another WebRTC client. Close your mobile APP and try again.")
-            sys.exit(1)
+            raise ValueError("Go2 is connected by another WebRTC client. Close your mobile APP and try again.")
+            # sys.exit(1)
 
         remote_sdp = RTCSessionDescription(sdp=peer_answer['sdp'], type=peer_answer['type']) 
         await self.pc.setRemoteDescription(remote_sdp)
